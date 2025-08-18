@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>קונים בחכם — הצטרפו לקבוצת ווצאפ</title>
+  <style>
+    :root{
+      --bg1:#0f1724;
+      --accent1:#25D366; /* whatsapp green */
+      --accent2:#128C7E;
+      --glass: rgba(255,255,255,0.06);
+      --card: rgba(255,255,255,0.04);
+      --text:#EFF6FF;
+      --muted:rgba(239,246,255,0.7);
+      --radius:18px;
+      --maxw:980px;
+    }
+    html,body{height:100%;margin:0;font-family: "Heebo", "Segoe UI", Roboto, Arial, sans-serif;background:
+      radial-gradient(1200px 600px at 10% 10%, rgba(37,211,102,0.06), transparent 10%),
+      radial-gradient(1000px 600px at 90% 90%, rgba(18,140,126,0.06), transparent 8%),
+      linear-gradient(180deg,var(--bg1), #071028);
+      color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    /* center layout */
+    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:36px;}
+    .card{
+      width:100%;max-width:var(--maxw);background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:calc(var(--radius) + 6px);padding:28px;box-shadow:0 10px 40px rgba(2,6,23,0.6);
+      position:relative;overflow:hidden;backdrop-filter: blur(6px);
+    }
+    /* floating blobs */
+    .blob{position:absolute;border-radius:50%;filter:blur(40px);opacity:0.9;mix-blend-mode:screen}
+    .b1{width:420px;height:420px;right:-120px;top:-160px;background:linear-gradient(135deg,var(--accent1), var(--accent2));transform:rotate(12deg);animation:float 7s ease-in-out infinite;}
+    .b2{width:260px;height:260px;left:-80px;bottom:-100px;background:linear-gradient(135deg, rgba(37,211,102,0.14), rgba(18,140,126,0.12));animation:float 8.5s ease-in-out infinite reverse;}
+    @keyframes float{0%{transform:translateY(0) rotate(12deg)}50%{transform:translateY(18px) rotate(18deg)}100%{transform:translateY(0) rotate(12deg)}}
+
+    .grid{display:grid;grid-template-columns: 1fr 360px;gap:28px;align-items:center;}
+    @media (max-width:880px){.grid{grid-template-columns:1fr;}}
+    .hero{
+      padding:18px 22px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    h1{font-size:28px;margin:0 0 8px 0;line-height:1.05}
+    p.lead{margin:0 0 18px 0;color:var(--muted);font-size:16px}
+
+    /* button area */
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;font-weight:700;
+      text-decoration:none;color:white;background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;cursor:pointer;
+      box-shadow:0 6px 18px rgba(18,140,126,0.18);transition:transform .18s ease, box-shadow .18s;
+      transform:translateZ(0);
+    }
+    .btn:active{transform:translateY(2px) scale(.995)}
+    .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.06);box-shadow:none;font-weight:600}
+    .btn .logo{display:inline-flex;width:22px;height:22px}
+    .btn.shimmer{position:relative;overflow:hidden}
+    .btn.shimmer::after{content:"";position:absolute;top:0;left:-60%;width:60%;height:100%;background:linear-gradient(90deg,transparent, rgba(255,255,255,0.06), transparent);transform:skewX(-18deg);animation:shine 2.6s linear infinite}
+    @keyframes shine{to{left:160%}}
+
+    /* right column */
+    .aside{display:flex;flex-direction:column;gap:14px;align-items:center;padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.03)}
+    .qr-wrap{width:100%;max-width:280px;padding:14px;border-radius:12px;background:var(--card);display:flex;flex-direction:column;align-items:center;gap:12px}
+    .qr-img{width:190px;height:190px;border-radius:12px;background:#fff;padding:6px;display:flex;align-items:center;justify-content:center}
+    .qr-img img{max-width:100%;height:auto;border-radius:6px;display:block}
+    .meta{font-size:13px;color:var(--muted);text-align:center;padding:4px 8px}
+
+    /* small utilities */
+    .small{font-size:13px;color:var(--muted)}
+    .share-row{display:flex;gap:8px}
+    .icon-btn{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.02);display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* accessibility: respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .b1,.b2,.btn.shimmer::after{animation:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="main" aria-labelledby="mainTitle">
+      <div class="blob b1" aria-hidden="true"></div>
+      <div class="blob b2" aria-hidden="true"></div>
+
+      <div class="grid">
+        <!-- LEFT / HERO -->
+        <section class="hero" aria-label="הצטרפו לקבוצת ווצאפ">
+          <h1 id="mainTitle">ברוך הבא לאתר של <strong>קונים בחכם</strong></h1>
+          <p class="lead">טיפים, דילים חמים וקבוצת ווצאפ סגורה לשיתופי מבצעים — הצטרפו עכשיו ותהפכו לחכמים בקניות!</p>
+
+          <div class="actions" style="margin-bottom:14px;">
+            <!-- Primary WhatsApp button -->
+            <a id="openWhatsApp" class="btn shimmer" href="#" target="_blank" rel="noopener noreferrer" aria-label="הצטרפו לקבוצת הווצאפ">
+              <!-- whatsapp svg logo -->
+              <span class="logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+                  <path d="M20.52 3.48a11.95 11.95 0 10-3.25 16.52L21 21l-1.01-3.48A11.95 11.95 0 0020.52 3.48z" fill="#fff" opacity="0.06"/>
+                  <path d="M17.472 14.382c-.293-.146-1.732-.854-2.00-.951-.268-.098-.463-.146-.657.146s-.754.951-.926 1.149c-.171.197-.34.219-.633.073-.293-.146-1.237-.455-2.356-1.449-.872-.777-1.46-1.735-1.63-2.028-.171-.293-.018-.452.128-.597.132-.132.293-.342.439-.513.146-.171.195-.293.293-.488.098-.197.049-.366-.024-.513-.073-.146-.657-1.58-.901-2.165-.237-.569-.479-.492-.657-.502l-.56-.01c-.197 0-.513.073-.782.366s-1.03 1.007-1.03 2.457 1.054 2.85 1.2 3.047c.146.197 2.073 3.17 5.02 4.44 0 0 .293.123.53.06.237-.061 1.732-.707 1.98-1.394.244-.68.244-1.262.171-1.394-.073-.132-.268-.197-.561-.342z" fill="#fff"/>
+                </svg>
+              </span>
+              <span id="btnText">הצטרפו לקבוצת הווצאפ</span>
+            </a>
+
+            <button id="copyLink" class="btn ghost" title="העתק קישור">העתק קישור</button>
+            <button id="showQR" class="btn ghost" title="הצג QR">הצג QR</button>
+          </div>
+
+          <div class="small">או סרוק/הראה את ה-QR למטה — התבוננו במובייל להקשר מהיר.</div>
+
+          <footer>
+          </footer>
+        </section>
+
+        <!-- RIGHT / QR + META -->
+        <aside class="aside" aria-label="QR וקישורים מהירים">
+          <div class="qr-wrap" role="region" aria-labelledby="qrTitle">
+            <div id="qrTitle" style="font-weight:700">סרוק להצטרפות</div>
+            <div class="qr-img" id="qrContainer" aria-live="polite">
+              <!-- QR ייווצר דינמית -->
+              <img id="qrImage" src="" alt="קוד QR להצטרפות לקבוצת ווצאפ">
+            </div>
+            <div class="meta">לחץ על "הצטרפו" כדי להיפתח ב-WhatsApp או השתמש בכפתור העתק לשיתוף מהיר.</div>
+
+            <div class="share-row" style="margin-top:6px">
+              <button id="saveQR" class="btn ghost" title="הורד QR">הורד QR</button>
+              <button id="openWaMobile" class="btn" title="פתח ב-WhatsApp Web">פתח ב-WhatsApp Web</button>
+            </div>
+          </div>
+
+          <div style="width:100%;text-align:center;margin-top:8px">
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for QR (optional) -->
+  <div id="qrModal" role="dialog" aria-hidden="true" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:60;">
+    <div style="background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:14px;max-width:420px;width:92%;text-align:center;">
+      <h3 style="margin:0 0 8px 0">סרקו להצטרף</h3>
+      <div style="display:flex;justify-content:center;margin-bottom:12px">
+        <img id="modalQR" src="" alt="QR" style="width:260px;height:260px;border-radius:12px;background:#fff;padding:8px;">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <button id="modalClose" class="btn ghost">סגור</button>
+        <a id="downloadModalQR" class="btn" href="#" download="whatsapp-qr.png">הורד QR</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /***********************
+     *  עריכה נחוצה בלבד:
+     *  החליפו את הערך כאן בקישור הקבוצה שלכם
+     *  לדוגמה: "https://chat.whatsapp.com/ABCDEFG1234567"
+     ************************/
+    const WHATSAPP_LINK = "https://chat.whatsapp.com/C4N1xUakbXzCmdT90xcsTw";
+
+    // DOM
+    const openWhatsApp = document.getElementById('openWhatsApp');
+    const btnText = document.getElementById('btnText');
+    const qrImage = document.getElementById('qrImage');
+    const showQRBtn = document.getElementById('showQR');
+    const qrModal = document.getElementById('qrModal');
+    const modalQR = document.getElementById('modalQR');
+    const modalClose = document.getElementById('modalClose');
+    const downloadModalQR = document.getElementById('downloadModalQR');
+    const saveQR = document.getElementById('saveQR');
+    const copyLinkBtn = document.getElementById('copyLink');
+    const openWaMobile = document.getElementById('openWaMobile');
+
+    // If user didn't replace link, show default behavior
+    const link = WHATSAPP_LINK && WHATSAPP_LINK !== "YOUR_WHATSAPP_LINK" ? WHATSAPP_LINK : "#";
+
+    // Set the anchor href to open in a new tab. Use wa.me if it's a phone link, otherwise the chat invite.
+    openWhatsApp.href = link;
+    openWhatsappHref = link;
+
+    // button text hint
+    if(link === "#"){
+      btnText.textContent = "הצטרפו לקבוצת הווצאפ (החלף קישור)";
+      openWhatsApp.classList.remove('shimmer');
+      openWhatsApp.setAttribute('aria-disabled','true');
+    }
+
+    // build QR image URL using public QR API (api.qrserver.com) — client-side only
+    function makeQRUrl(data, size=400){
+      const encoded = encodeURIComponent(data);
+      return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}&format=png`;
+    }
+
+    // set initial QR (small)
+    const qrUrl = makeQRUrl(link, 400);
+    qrImage.src = qrUrl;
+    modalQR.src = qrUrl;
+    downloadModalQR.href = qrUrl;
+
+    // show modal
+    showQRBtn.addEventListener('click', () => {
+      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי לאפשר את הקישור וה-QR.'); return; }
+      qrModal.style.display = "flex";
+      qrModal.setAttribute('aria-hidden','false');
+    });
+    modalClose.addEventListener('click', () => {
+      qrModal.style.display = "none";
+      qrModal.setAttribute('aria-hidden','true');
+    });
+
+    // download QR (opens image link with download attr)
+    saveQR.addEventListener('click', () => {
+      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי להוריד את ה-QR.'); return; }
+      // trigger download by opening link in new tab (download attr is present on anchor in modal)
+      const a = document.createElement('a'); a.href = qrUrl; a.download = 'whatsapp-qr.png'; document.body.appendChild(a); a.click(); a.remove();
+    });
+
+    // copy link
+    copyLinkBtn.addEventListener('click', async () => {
+      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי להעתיק את הקישור.'); return; }
+      try {
+        await navigator.clipboard.writeText(link);
+        copyLinkBtn.textContent = "הועתק!";
+        setTimeout(()=> copyLinkBtn.textContent = "העתק קישור",1400);
+      } catch(err){
+        // fallback: prompt
+        const ok = prompt("העתק את הקישור הזה:", link);
+        if(ok !== null) copyLinkBtn.textContent = "הועתק!";
+      }
+    });
+
+    // open in WhatsApp Web — use web link pattern if invite (chat.whatsapp.com) -> open as-is
+    openWaMobile.addEventListener('click', () => {
+      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי לפתוח ב-WhatsApp Web.'); return; }
+      // If user has invite link (chat.whatsapp.com) open it; if it's a wa.me link, open it
+      window.open(link, '_blank', 'noopener');
+    });
+
+    // modal download link
+    downloadModalQR.addEventListener('click', () => {
+      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי להוריד את ה-QR.'); }
+    });
+
+    // keyboard escape to close modal
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') { qrModal.style.display='none'; qrModal.setAttribute('aria-hidden','true'); }
+    });
+
+    // small UX: if link is an invite (chat.whatsapp.com) and not prefixed, keep as-is.
+    // If it's a phone number, the user may use wa.me/phone — we don't transform automatically.
+
+    // progressive enhancement: show tooltip on long-press mobile? omitted for brevity.
+
+    // Accessibility tip: focus the modal close when opened
+    const observer = new MutationObserver(()=> {
+      if(qrModal.style.display === "flex"){ modalClose.focus(); }
+    });
+    observer.observe(qrModal, {attributes:true,attributeFilter:['style']});
+  </script>
+</body>
+</html>
