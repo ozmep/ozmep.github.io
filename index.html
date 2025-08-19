@@ -153,82 +153,84 @@
     </div>
   </div>
 
-  <script>
+<script>
+  const WHATSAPP_LINK = "https://chat.whatsapp.com/C4N1xUakbXzCmdT90xcsTw";
 
-    const WHATSAPP_LINK = "https://chat.whatsapp.com/C4N1xUakbXzCmdT90xcsTw";
+  const openWhatsApp = document.getElementById('openWhatsApp');
+  const btnText = document.getElementById('btnText');
+  const qrImage = document.getElementById('qrImage');
+  const showQRBtn = document.getElementById('showQR');
+  const qrModal = document.getElementById('qrModal');
+  const modalQR = document.getElementById('modalQR');
+  const modalClose = document.getElementById('modalClose');
+  const downloadModalQR = document.getElementById('downloadModalQR');
+  const saveQR = document.getElementById('saveQR');
+  const copyLinkBtn = document.getElementById('copyLink');
+  const openWaMobile = document.getElementById('openWaMobile');
 
-    const openWhatsApp = document.getElementById('openWhatsApp');
-    const btnText = document.getElementById('btnText');
-    const qrImage = document.getElementById('qrImage');
-    const showQRBtn = document.getElementById('showQR');
-    const qrModal = document.getElementById('qrModal');
-    const modalQR = document.getElementById('modalQR');
-    const modalClose = document.getElementById('modalClose');
-    const downloadModalQR = document.getElementById('downloadModalQR');
-    const saveQR = document.getElementById('saveQR');
-    const copyLinkBtn = document.getElementById('copyLink');
-    const openWaMobile = document.getElementById('openWaMobile');
+  // set the main link
+  openWhatsApp.href = WHATSAPP_LINK;
 
+  function makeQRUrl(data, size=400){
+    const encoded = encodeURIComponent(data);
+    return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}&format=png`;
+  }
 
-    openWhatsApp.href = link;
-    openWhatsappHref = link;
+  const qrUrl = makeQRUrl(WHATSAPP_LINK, 400);
+  qrImage.src = qrUrl;
+  modalQR.src = qrUrl;
+  downloadModalQR.href = qrUrl;
 
+  showQRBtn.addEventListener('click', () => {
+    qrModal.style.display = "flex";
+    qrModal.setAttribute('aria-hidden','false');
+  });
 
-    function makeQRUrl(data, size=400){
-      const encoded = encodeURIComponent(data);
-      return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}&format=png`;
+  modalClose.addEventListener('click', () => {
+    qrModal.style.display = "none";
+    qrModal.setAttribute('aria-hidden','true');
+  });
+
+  saveQR.addEventListener('click', () => {
+    const a = document.createElement('a'); 
+    a.href = qrUrl; 
+    a.download = 'whatsapp-qr.png'; 
+    document.body.appendChild(a); 
+    a.click(); 
+    a.remove();
+  });
+
+  copyLinkBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(WHATSAPP_LINK);
+      copyLinkBtn.textContent = "הועתק!";
+      setTimeout(()=> copyLinkBtn.textContent = "העתק קישור",1400);
+    } catch(err){
+      const ok = prompt("העתק את הקישור הזה:", WHATSAPP_LINK);
+      if(ok !== null) copyLinkBtn.textContent = "הועתק!";
     }
+  });
 
-    const qrUrl = makeQRUrl(link, 400);
-    qrImage.src = qrUrl;
-    modalQR.src = qrUrl;
-    downloadModalQR.href = qrUrl;
+  openWaMobile.addEventListener('click', () => {
+    window.open(WHATSAPP_LINK, '_blank', 'noopener');
+  });
 
-    showQRBtn.addEventListener('click', () => {
-      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי לאפשר את הקישור וה-QR.'); return; }
-      qrModal.style.display = "flex";
-      qrModal.setAttribute('aria-hidden','false');
-    });
-    modalClose.addEventListener('click', () => {
-      qrModal.style.display = "none";
-      qrModal.setAttribute('aria-hidden','true');
-    });
+  downloadModalQR.addEventListener('click', () => {
+    // already handled by href
+  });
 
-    saveQR.addEventListener('click', () => {
-      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי להוריד את ה-QR.'); return; }
-      const a = document.createElement('a'); a.href = qrUrl; a.download = 'whatsapp-qr.png'; document.body.appendChild(a); a.click(); a.remove();
-    });
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') { 
+      qrModal.style.display='none'; 
+      qrModal.setAttribute('aria-hidden','true'); 
+    }
+  });
 
-    copyLinkBtn.addEventListener('click', async () => {
-      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי להעתיק את הקישור.'); return; }
-      try {
-        await navigator.clipboard.writeText(link);
-        copyLinkBtn.textContent = "הועתק!";
-        setTimeout(()=> copyLinkBtn.textContent = "העתק קישור",1400);
-      } catch(err){
-        const ok = prompt("העתק את הקישור הזה:", link);
-        if(ok !== null) copyLinkBtn.textContent = "הועתק!";
-      }
-    });
+  const observer = new MutationObserver(()=> {
+    if(qrModal.style.display === "flex"){ modalClose.focus(); }
+  });
+  observer.observe(qrModal, {attributes:true,attributeFilter:['style']});
+</script>
 
-    openWaMobile.addEventListener('click', () => {
-      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי לפתוח ב-WhatsApp Web.'); return; }
-      window.open(link, '_blank', 'noopener');
-    });
-
-    downloadModalQR.addEventListener('click', () => {
-      if(link === "#"){ alert('החלף את ה-WHATSAPP_LINK בקובץ ה-HTML כדי להוריד את ה-QR.'); }
-    });
-
-    window.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape') { qrModal.style.display='none'; qrModal.setAttribute('aria-hidden','true'); }
-    });
-
-
-    const observer = new MutationObserver(()=> {
-      if(qrModal.style.display === "flex"){ modalClose.focus(); }
-    });
-    observer.observe(qrModal, {attributes:true,attributeFilter:['style']});
-  </script>
 </body>
 </html>
