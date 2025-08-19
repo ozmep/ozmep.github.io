@@ -154,6 +154,7 @@
   </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
   const WHATSAPP_LINK = "https://chat.whatsapp.com/C4N1xUakbXzCmdT90xcsTw";
 
   const openWhatsApp = document.getElementById('openWhatsApp');
@@ -168,12 +169,12 @@
   const copyLinkBtn = document.getElementById('copyLink');
   const openWaMobile = document.getElementById('openWaMobile');
 
-  // set the main link
+  // assign WhatsApp link
   openWhatsApp.href = WHATSAPP_LINK;
 
+  // QR generator function
   function makeQRUrl(data, size=400){
-    const encoded = encodeURIComponent(data);
-    return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}&format=png`;
+    return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(data)}&format=png`;
   }
 
   const qrUrl = makeQRUrl(WHATSAPP_LINK, 400);
@@ -181,16 +182,19 @@
   modalQR.src = qrUrl;
   downloadModalQR.href = qrUrl;
 
+  // show QR modal
   showQRBtn.addEventListener('click', () => {
     qrModal.style.display = "flex";
     qrModal.setAttribute('aria-hidden','false');
   });
 
+  // close QR modal
   modalClose.addEventListener('click', () => {
     qrModal.style.display = "none";
     qrModal.setAttribute('aria-hidden','true');
   });
 
+  // save QR button
   saveQR.addEventListener('click', () => {
     const a = document.createElement('a'); 
     a.href = qrUrl; 
@@ -200,25 +204,23 @@
     a.remove();
   });
 
+  // copy link
   copyLinkBtn.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(WHATSAPP_LINK);
       copyLinkBtn.textContent = "הועתק!";
       setTimeout(()=> copyLinkBtn.textContent = "העתק קישור",1400);
     } catch(err){
-      const ok = prompt("העתק את הקישור הזה:", WHATSAPP_LINK);
-      if(ok !== null) copyLinkBtn.textContent = "הועתק!";
+      prompt("העתק את הקישור הזה:", WHATSAPP_LINK);
     }
   });
 
+  // open WhatsApp Web
   openWaMobile.addEventListener('click', () => {
     window.open(WHATSAPP_LINK, '_blank', 'noopener');
   });
 
-  downloadModalQR.addEventListener('click', () => {
-    // already handled by href
-  });
-
+  // ESC closes modal
   window.addEventListener('keydown', (e)=>{
     if(e.key === 'Escape') { 
       qrModal.style.display='none'; 
@@ -226,10 +228,12 @@
     }
   });
 
+  // focus on close when modal opens
   const observer = new MutationObserver(()=> {
     if(qrModal.style.display === "flex"){ modalClose.focus(); }
   });
   observer.observe(qrModal, {attributes:true,attributeFilter:['style']});
+});
 </script>
 
 </body>
